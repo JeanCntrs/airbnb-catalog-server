@@ -32,13 +32,13 @@ type Item struct {
 	MinimumNights        string               `bson:"minimum_nights" json:"minimum_nights,omitempty"`
 	MaximumNights        string               `bson:"maximum_nights" json:"maximum_nights,omitempty"`
 	CancellationPolicy   string               `bson:"cancellation_policy" json:"cancellation_policy,omitempty"`
-	LastReview           time.Time            `bson:"last_review" json:"last_review,omitempty"`
 	Accommodates         int32                `bson:"accommodates" json:"accommodates,omitempty"`
 	Bedrooms             int32                `bson:"bedrooms" json:"bedrooms,omitempty"`
 	Beds                 int32                `bson:"beds" json:"beds,omitempty"`
 	NumberOfReviews      int32                `bson:"number_of_reviews" json:"number_of_reviews,omitempty"`
 	Amenities            []string             `bson:"amenities" json:"amenities,omitempty"`
 	Price                primitive.Decimal128 `bson:"price" json:"price,omitempty"`
+	Documents            int64                `bson:"documents" json:"documents,omitempty"`
 	Images               struct {
 		PictureURL string `bson:"picture_url" json:"picture_url,omitempty"`
 	}

@@ -16,6 +16,7 @@ func RouteHandlers() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/api/item/detail", middlewares.CheckDB(routers.ItemDetail)).Methods("GET")
+	router.HandleFunc("/api/item/list", middlewares.CheckDB(routers.ItemList)).Methods("GET")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

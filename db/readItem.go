@@ -29,5 +29,9 @@ func ReadItem(ID string) (models.Item, error) {
 		return item, err
 	}
 
+	if len(item.Reviews) > 5 {
+		item.Reviews = item.Reviews[len(item.Reviews)-5:]
+	}
+
 	return item, nil
 }
