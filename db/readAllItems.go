@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	"math"
 
 	"time"
 
@@ -11,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// ReadAllItems : 2
+// ReadAllItems : Searches for all items that match the given parameters
 func ReadAllItems(page int64, search string) ([]*models.Item, bool) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
@@ -20,10 +21,11 @@ func ReadAllItems(page int64, search string) ([]*models.Item, bool) {
 	coll := db.Collection("listingsAndReviews")
 
 	var results []*models.Item
+	var itemsPerPage = int64(51)
 
 	findOptions := options.Find()
-	findOptions.SetSkip((page - 1) * 50)
-	findOptions.SetLimit(50)
+	findOptions.SetSkip((page - 1) * itemsPerPage)
+	findOptions.SetLimit(itemsPerPage)
 	findOptions.SetProjection(
 		bson.M{
 			"_id":               1,
@@ -38,7 +40,7 @@ func ReadAllItems(page int64, search string) ([]*models.Item, bool) {
 	)
 
 	query := bson.M{
-		"name": bson.M{"$regex": `(?i)` + search},
+		"summary": bson.M{"$regex": `(?i)` + search},
 	}
 
 	/* query := bson.M{
@@ -63,6 +65,8 @@ func ReadAllItems(page int64, search string) ([]*models.Item, bool) {
 		return results, false
 	}
 
+	pages := math.Ceil(float64(documents) / float64(itemsPerPage))
+
 	cursor, err := coll.Find(ctx, query, findOptions)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -78,7 +82,7 @@ func ReadAllItems(page int64, search string) ([]*models.Item, bool) {
 			return results, false
 		}
 
-		item.Documents = documents
+		item.Pages = pages
 
 		if len(item.Reviews) > 0 {
 			item.Reviews = item.Reviews[len(item.Reviews)-1:]

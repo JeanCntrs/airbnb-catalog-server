@@ -38,7 +38,7 @@ type Item struct {
 	NumberOfReviews      int32                `bson:"number_of_reviews" json:"number_of_reviews,omitempty"`
 	Amenities            []string             `bson:"amenities" json:"amenities,omitempty"`
 	Price                primitive.Decimal128 `bson:"price" json:"price,omitempty"`
-	Documents            int64                `bson:"documents" json:"documents,omitempty"`
+	Pages                float64              `bson:"pages" json:"pages,omitempty"`
 	Images               struct {
 		PictureURL string `bson:"picture_url" json:"picture_url,omitempty"`
 	}

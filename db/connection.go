@@ -15,7 +15,7 @@ var clientOptions = options.Client().ApplyURI("")
 
 // ConnectDB : Function that returns the connection to the database
 func ConnectDB() *mongo.Client {
-	setConnectionString()
+	SetConnectionString()
 	var clientOptions = options.Client().ApplyURI(os.Getenv("CONNECTION_STRING"))
 
 	client, err := mongo.Connect(context.TODO(), clientOptions)
